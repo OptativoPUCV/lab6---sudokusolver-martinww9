@@ -44,39 +44,37 @@ void print_node(Node* n){
 }
 
 int is_valid(Node* n) {
-    int i, j, k;
-
-    for (i = 0; i < 9; i++) {
-        int row_mark[10] = {0}; 
-        for (j = 0; j < 9; j++) {
-            if (n->sudo[i][j] == 0) continue; 
-            if (row_mark[n->sudo[i][j]] == 1) return 0; 
-            row_mark[n->sudo[i][j]] = 1; 
-        }
-    }
-
-    for (j = 0; j < 9; j++) {
-        int col_mark[10] = {0}; 
-        for (i = 0; i < 9; i++) {
-            if (n->sudo[i][j] == 0) continue; 
-            if (col_mark[n->sudo[i][j]] == 1) return 0; 
-            col_mark[n->sudo[i][j]] = 1; 
-        }
-    }
-
-    for (i = 0; i < 9; i += 3) {
-        for (j = 0; j < 9; j += 3) {
-            int mat_mark[10] = {0}; 
-            for (k = 0; k < 9; k++) {
-                int row = i + k / 3;
-                int col = j + k % 3;
-                if (n->sudo[row][col] == 0) continue; 
-                if (mat_mark[n->sudo[row][col]] == 1) return 0; 
-                mat_mark[n->sudo[row][col]] = 1; 
+    int used_rows[9][10] = {0};
+    int used_cols[9][10] = {0};
+    int used_boxes[9][10] = {0};
+    
+    for (int i = 0; i < 9; i++) {
+        for (int j = 0; j < 9; j++) {
+            int num = n->sudo[i][j];
+            if (num != 0) {
+                // Check row
+                if (used_rows[i][num] == 1) {
+                    return 0;
+                } else {
+                    used_rows[i][num] = 1;
+                }
+                
+                if (used_cols[j][num] == 1) {
+                    return 0;
+                } else {
+                    used_cols[j][num] = 1;
+                }
+                
+                int box_idx = (i / 3) * 3 + (j / 3);
+                if (used_boxes[box_idx][num] == 1) {
+                    return 0;
+                } else {
+                    used_boxes[box_idx][num] = 1;
+                }
             }
         }
     }
-
+    
     return 1;
 }
 
