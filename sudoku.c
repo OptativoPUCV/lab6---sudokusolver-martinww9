@@ -43,49 +43,40 @@ void print_node(Node* n){
     printf("\n");
 }
 
-int is_valid(Node* n){
-    int i, j, k, p;
-    int used[10] = {0}; 
+int is_valid(Node* n) {
+    int i, j, k;
 
-    for(i = 0; i < 9; i++){
-        for(j = 0; j < 9; j++){
-            if(n->sudo[i][j] != 0 && used[n->sudo[i][j]] == 1){
-                return 0; 
-            }
-            used[n->sudo[i][j]] = 1;
-        }
-        for(k = 0; k < 10; k++){
-            used[k] = 0; 
+    for (i = 0; i < 9; i++) {
+        int row_mark[10] = {0}; 
+        for (j = 0; j < 9; j++) {
+            if (n->sudo[i][j] == 0) continue; 
+            if (row_mark[n->sudo[i][j]] == 1) return 0; 
+            row_mark[n->sudo[i][j]] = 1; 
         }
     }
 
-    for(j = 0; j < 9; j++){
-        for(i = 0; i < 9; i++){
-            if(n->sudo[i][j] != 0 && used[n->sudo[i][j]] == 1){
-                return 0; 
-            }
-            used[n->sudo[i][j]] = 1;
-        }
-        for(k = 0; k < 10; k++){
-            used[k] = 0; 
+    for (j = 0; j < 9; j++) {
+        int col_mark[10] = {0}; 
+        for (i = 0; i < 9; i++) {
+            if (n->sudo[i][j] == 0) continue; 
+            if (col_mark[n->sudo[i][j]] == 1) return 0; 
+            col_mark[n->sudo[i][j]] = 1; 
         }
     }
 
-    for(k = 0; k < 9; k++){
-        for(p = 0; p < 9; p++){
-            int i = 3*(k/3) + (p/3) ;
-            int j = 3*(k%3) + (p%3) ;
-            if(n->sudo[i][j] != 0 && used[n->sudo[i][j]] == 1){
-                return 0; 
-            }
-            used[n->sudo[i][j]] = 1;
-            if(p == 8){
-                for(int q = 0; q < 10; q++){
-                    used[q] = 0; 
-                }
+    for (i = 0; i < 9; i += 3) {
+        for (j = 0; j < 9; j += 3) {
+            int mat_mark[10] = {0}; // 
+            for (k = 0; k < 9; k++) {
+                int row = i + k / 3;
+                int col = j + k % 3;
+                if (n->sudo[row][col] == 0) continue; // 
+                if (mat_mark[n->sudo[row][col]] == 1) return 0; //
+                mat_mark[n->sudo[row][col]] = 1; 
             }
         }
     }
+
     return 1;
 }
 
