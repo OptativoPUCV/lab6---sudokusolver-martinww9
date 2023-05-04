@@ -8,13 +8,7 @@ typedef struct{
 }Node;
 
 Node* createNode(){
-  Node* n = (Node*) malloc(sizeof(Node));
-  int i, j;
-  for(i = 0; i < 9; i++){
-    for(j = 0; j < 9; j++){
-      n->sudo[i][j] = 0;
-    }
-  }
+  Node* n=(Node*) malloc(sizeof(Node));
   return n;
 }
 
@@ -49,38 +43,49 @@ void print_node(Node* n){
     printf("\n");
 }
 
-int is_valid(Node* n) {
-    int used_rows[9][10] = {0};
-    int used_cols[9][10] = {0};
-    int used_boxes[9][10] = {0};
-    
-    for (int i = 0; i < 9; i++) {
-        for (int j = 0; j < 9; j++) {
-            int num = n->sudo[i][j];
-            if (num != 0) {
-                // Check row
-                if (used_rows[i][num] == 1) {
-                    return 0;
-                } else {
-                    used_rows[i][num] = 1;
-                }
-                
-                if (used_cols[j][num] == 1) {
-                    return 0;
-                } else {
-                    used_cols[j][num] = 1;
-                }
-                
-                int box_idx = (i / 3) * 3 + (j / 3);
-                if (used_boxes[box_idx][num] == 1) {
-                    return 0;
-                } else {
-                    used_boxes[box_idx][num] = 1;
+int is_valid(Node* n){
+    int i, j, k, p;
+    int used[10] = {0}; 
+
+    for(i = 0; i < 9; i++){
+        for(j = 0; j < 9; j++){
+            if(n->sudo[i][j] != 0 && used[n->sudo[i][j]] == 1){
+                return 0; 
+            }
+            used[n->sudo[i][j]] = 1;
+        }
+        for(k = 0; k < 10; k++){
+            used[k] = 0; 
+        }
+    }
+
+    for(j = 0; j < 9; j++){
+        for(i = 0; i < 9; i++){
+            if(n->sudo[i][j] != 0 && used[n->sudo[i][j]] == 1){
+                return 0; 
+            }
+            used[n->sudo[i][j]] = 1;
+        }
+        for(k = 0; k < 10; k++){
+            used[k] = 0; 
+        }
+    }
+
+    for(k = 0; k < 9; k++){
+        for(p = 0; p < 9; p++){
+            int i = 3*(k/3) + (p/3) ;
+            int j = 3*(k%3) + (p%3) ;
+            if(n->sudo[i][j] != 0 && used[n->sudo[i][j]] == 1){
+                return 0; 
+            }
+            used[n->sudo[i][j]] = 1;
+            if(p == 8){
+                for(int q = 0; q < 10; q++){
+                    used[q] = 0; 
                 }
             }
         }
     }
-    
     return 1;
 }
 
