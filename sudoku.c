@@ -66,12 +66,12 @@ int is_valid(Node* n) {
 
     for (i = 0; i < 9; i += 3) {
         for (j = 0; j < 9; j += 3) {
-            int mat_mark[10] = {0}; // 
+            int mat_mark[10] = {0}; 
             for (k = 0; k < 9; k++) {
                 int row = i + k / 3;
                 int col = j + k % 3;
-                if (n->sudo[row][col] == 0) continue; // 
-                if (mat_mark[n->sudo[row][col]] == 1) return 0; //
+                if (n->sudo[row][col] == 0) continue; 
+                if (mat_mark[n->sudo[row][col]] == 1) return 0; 
                 mat_mark[n->sudo[row][col]] = 1; 
             }
         }
