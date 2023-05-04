@@ -8,7 +8,13 @@ typedef struct{
 }Node;
 
 Node* createNode(){
-  Node* n=(Node*) malloc(sizeof(Node));
+  Node* n = (Node*) malloc(sizeof(Node));
+  int i, j;
+  for(i = 0; i < 9; i++){
+    for(j = 0; j < 9; j++){
+      n->sudo[i][j] = 0;
+    }
+  }
   return n;
 }
 
