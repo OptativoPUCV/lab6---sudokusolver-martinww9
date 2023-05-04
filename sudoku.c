@@ -107,7 +107,7 @@ for (int i = 0; i < 9; i++) {
                     if (is_valid(new_node)) {
                         pushBack(list, new_node);
                     } else {
-                        freeNode(new_node);
+                        
                     }
                 }
             }
