@@ -44,57 +44,48 @@ void print_node(Node* n){
 }
 
 int is_valid(Node* n){
-    int i, j, k, l, num;
-    int aux[9];
+    int i, j, k, p;
+    int used[10] = {0}; 
 
-    for (i = 0; i < 9; i++) {
-        for (j = 0; j < 9; j++) {
-            aux[j] = 0;
-        }
-        for (j = 0; j < 9; j++) {
-            num = n->sudo[i][j];
-            if (num != 0 && aux[num - 1] == 0) {
-                aux[num - 1] = 1;
-            } else if (num != 0) {
-                return 0;
+    for(i = 0; i < 9; i++){
+        for(j = 0; j < 9; j++){
+            if(n->sudo[i][j] != 0 && used[n->sudo[i][j]] == 1){
+                return 0; 
             }
+            used[n->sudo[i][j]] = 1;
+        }
+        for(k = 0; k < 10; k++){
+            used[k] = 0; 
         }
     }
 
-    for (i = 0; i < 9; i++) {
-        for (j = 0; j < 9; j++) {
-            aux[j] = 0;
-        }
-        for (j = 0; j < 9; j++) {
-            num = n->sudo[j][i];
-            if (num != 0 && aux[num - 1] == 0) {
-                aux[num - 1] = 1;
-            } else if (num != 0) {
-                return 0;
+    for(j = 0; j < 9; j++){
+        for(i = 0; i < 9; i++){
+            if(n->sudo[i][j] != 0 && used[n->sudo[i][j]] == 1){
+                return 0; 
             }
+            used[n->sudo[i][j]] = 1;
+        }
+        for(k = 0; k < 10; k++){
+            used[k] = 0; 
         }
     }
 
-    for (i = 0; i < 9; i += 3) {
-        for (j = 0; j < 9; j += 3) {
-            for (k = i; k < i + 3; k++) {
-                for (l = j; l < j + 3; l++) {
-                    aux[l] = 0;
-                }
+    for(k = 0; k < 9; k++){
+        for(p = 0; p < 9; p++){
+            int i = 3*(k/3) + (p/3) ;
+            int j = 3*(k%3) + (p%3) ;
+            if(n->sudo[i][j] != 0 && used[n->sudo[i][j]] == 1){
+                return 0; 
             }
-            for (k = i; k < i + 3; k++) {
-                for (l = j; l < j + 3; l++) {
-                    num = n->sudo[k][l];
-                    if (num != 0 && aux[num - 1] == 0) {
-                        aux[num - 1] = 1;
-                    } else if (num != 0) {
-                        return 0;
-                    }
+            used[n->sudo[i][j]] = 1;
+            if(p == 8){
+                for(int q = 0; q < 10; q++){
+                    used[q] = 0; 
                 }
             }
         }
     }
-
     return 1;
 }
 
