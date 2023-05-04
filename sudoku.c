@@ -80,40 +80,24 @@ int is_valid(Node* n) {
 
 
 List* get_adj_nodes(Node* n){
- List* list = createList();
-    int used_rows[9][10] = {0};
-    int used_cols[9][10] = {0};
-    int used_boxes[9][10] = {0};
-    
-    for (int i = 0; i < 9; i++) {
-        for (int j = 0; j < 9; j++) {
-            int num = n->sudo[i][j];
-            if (num != 0) {
-                used_rows[i][num] = 1;
-                used_cols[j][num] = 1;
-                int box_idx = (i/ 3) * 3 + (j / 3);
-used_boxes[box_idx][num] = 1;
-}
-}
-}
-
-for (int i = 0; i < 9; i++) {
-    for (int j = 0; j < 9; j++) {
-        if (n->sudo[i][j] == 0) {
-            for (int k = 1; k <= 9; k++) {
-                if (!used_rows[i][k] && !used_cols[j][k] && !used_boxes[(i / 3) * 3 + (j / 3)][k]) {
-                    Node* new_node = copy(n);
-                    new_node->sudo[i][j] = k;
-                    if (is_valid(new_node)) {
-                        pushBack(list, new_node);
+    List* list = createList();
+    int i, j;
+    for (i = 0; i < 9; i++) {
+        for (j = 0; j < 9; j++) {
+            if (n->sudo[i][j] == 0) {
+                int k;
+                for (k = 1; k <= 9; k++) {
+                    Node* new_n = copy(n);
+                    new_n->sudo[i][j] = k;
+                    if (is_valid(new_n)) {
+                        pushBack(list, new_n);
                     } else {
-                        
+                        free(new_n);
                     }
                 }
             }
         }
     }
-}
     return list;
 }
 
