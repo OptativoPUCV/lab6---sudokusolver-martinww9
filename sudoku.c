@@ -131,7 +131,7 @@ int is_final(Node* n){
 }
 
 int isEmpty(Stack* s) {
-    return s->size == 0;
+    return s->top == NULL;
 }
 
 Node* DFS(Node* n, int* cont) {
