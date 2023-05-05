@@ -125,8 +125,7 @@ List* get_adj_nodes(Node* n) {
         }
     }
 
-    int valid_found = 0;
-    for (int i = 0; i < 9 && !valid_found; i++) {
+    for (int i = 0; i < 9; i++) {
         for (int j = 0; j < 9; j++) {
             if (n->sudo[i][j] == 0) {
                 int unused[10] = {0};
@@ -141,7 +140,6 @@ List* get_adj_nodes(Node* n) {
                         new_n->sudo[i][j] = k;
                         if (is_valid(new_n)) {
                             pushBack(list, new_n);
-                            valid_found = 1;
                         } else {
                             free(new_n);
                         }
