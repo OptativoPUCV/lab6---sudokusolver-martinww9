@@ -110,7 +110,7 @@ List* get_adj_nodes(Node* n) {
                     if (is_valid(new_node)) {
                         pushBack(list, new_node);
                     } else {
-                        free_node(new_node);
+                      
                     }
                 }
                 // devolver la lista de nodos adyacentes válidos
