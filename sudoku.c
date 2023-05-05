@@ -44,26 +44,48 @@ void print_node(Node* n){
 }
 
 int is_valid(Node* n) {
+    int used[10] = {0};
+
     for (int i = 0; i < 9; i++) {
-        int row_used[10] = {0};
-        int col_used[10] = {0};
-        int box_used[10] = {0};
+        for (int k = 0; k < 10; k++) {
+            used[k] = 0;
+        }
         for (int j = 0; j < 9; j++) {
-            int row_num = n->sudo[i][j];
-            int col_num = n->sudo[j][i];
-            int box_num = n->sudo[(i/3)*3+j/3][(i%3)*3+j%3];
-            if (row_num != 0 && row_used[row_num] == 1) {
+            int num = n->sudo[i][j];
+            if (num != 0 && used[num] == 1) {
                 return 0;
             }
-            if (col_num != 0 && col_used[col_num] == 1) {
+            used[num] = 1;
+        }
+    }
+
+    for (int j = 0; j < 9; j++) {
+        for (int k = 0; k < 10; k++) {
+            used[k] = 0;
+        }
+        for (int i = 0; i < 9; i++) {
+            int num = n->sudo[i][j];
+            if (num != 0 && used[num] == 1) {
                 return 0;
             }
-            if (box_num != 0 && box_used[box_num] == 1) {
-                return 0;
+            used[num] = 1;
+        }
+    }
+
+    for (int bi = 0; bi < 3; bi++) {
+        for (int bj = 0; bj < 3; bj++) {
+            for (int k = 0; k < 10; k++) {
+                used[k] = 0;
             }
-            row_used[row_num] = 1;
-            col_used[col_num] = 1;
-            box_used[box_num] = 1;
+            for (int i = bi*3; i < bi*3+3; i++) {
+                for (int j = bj*3; j < bj*3+3; j++) {
+                    int num = n->sudo[i][j];
+                    if (num != 0 && used[num] == 1) {
+                        return 0;
+                    }
+                    used[num] = 1;
+                }
+            }
         }
     }
 
