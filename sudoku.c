@@ -138,13 +138,14 @@ List* get_adj_nodes(Node* n) {
                     if (unused[k]) {
                         Node* new_n = copy(n);
                         new_n->sudo[i][j] = k;
-                        if (is_valid(new_n)) {
+                        if (is_valid_new(n, new_n)) {
                             pushBack(list, new_n);
                         } else {
                             free(new_n);
                         }
                     }
                 }
+                break;
             }
         }
     }
