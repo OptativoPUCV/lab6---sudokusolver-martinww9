@@ -92,6 +92,21 @@ int is_valid(Node* n) {
     return 1;
 }
 
+int is_valid_new(Node* n1, Node* n2) {
+    int count = 0;
+    for (int i = 0; i < 9; i++) {
+        for (int j = 0; j < 9; j++) {
+            if (n1->sudo[i][j] != n2->sudo[i][j]) {
+                count++;
+            }
+            if (count > 1) {
+                return 0;
+            }
+        }
+    }
+    return 1;
+}
+
 List* get_adj_nodes(Node* n) {
     List* list = createList();
     int used_rows[9][10] = {0};
@@ -123,13 +138,14 @@ List* get_adj_nodes(Node* n) {
                     if (unused[k]) {
                         Node* new_n = copy(n);
                         new_n->sudo[i][j] = k;
-                        if (is_valid(new_n)) {
+                        if (is_valid_new(n, new_n)) {
                             pushBack(list, new_n);
                         } else {
                             free(new_n);
                         }
                     }
                 }
+                break;
             }
         }
     }
