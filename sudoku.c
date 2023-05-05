@@ -130,9 +130,32 @@ int is_final(Node* n){
    return 1;
 }
 
-Node* DFS(Node* n, int* cont){
-   return NULL;
+int isEmpty(Stack* s) {
+    return s->size == 0;
 }
+
+Node* DFS(Node* n, int* cont) {
+    Stack* S = createStack();
+    push(S, n);
+    while (!isEmpty(S)) {
+        Node* current_node = (Node*) top(S);
+        pop(S);
+        (*cont)++;
+        if (is_final(current_node)) {
+            return current_node;
+        }
+        List* adj_nodes = get_adj_nodes(current_node);
+        Node* adj_node = NULL;
+        for (Node* next_node = (Node*) front(adj_nodes); next_node != NULL; next_node = (Node*) next(adj_nodes)) {
+            push(S, next_node);
+        }
+        free(adj_nodes);
+        free(current_node);
+    }
+    free(S);
+    return NULL;
+}
+
 
 
 
