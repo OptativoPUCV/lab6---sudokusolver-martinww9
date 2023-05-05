@@ -97,28 +97,23 @@ int is_valid(Node* n) {
 List* get_adj_nodes(Node* n) {
     List* list = createList();
     int i, j;
-    // encontrar la primera casilla vacía
     for (i = 0; i < 9; i++) {
         for (j = 0; j < 9; j++) {
             if (n->sudo[i][j] == 0) {
-                // generar nuevos nodos adyacentes
                 int k;
                 for (k = 1; k <= 9; k++) {
                     Node* new_node = copy(n);
                     new_node->sudo[i][j] = k;
-                    // verificar si el nuevo nodo es válido
                     if (is_valid(new_node)) {
                         pushBack(list, new_node);
                     } else {
                         free(new_node);
                     }
                 }
-                // devolver la lista de nodos adyacentes válidos
                 return list;
             }
         }
     }
-    // no se encontró ninguna casilla vacía, devolver una lista vacía
     return list;
 }
 
@@ -135,9 +130,29 @@ int is_final(Node* n){
    return 1;
 }
 
-Node* DFS(Node* initial, int* cont){
-  return NULL;
+Node* DFS(Node* n, int* cont){
+   Stack* S=createStack();
+   push(S,n);
+   while(S->size!=0){
+      Node* node=pop(S);
+      if(is_final(node)){
+         freeStack(S);
+         return node;
+      }
+      List* adj_list=get_adj_nodes(node);
+      ListNode* adj_node=adj_list->head;
+      while(adj_node!=NULL){
+         push(S,adj_node->node);
+         adj_node=adj_node->next;
+      }
+      free(adj_list);
+      free(node);
+      (*cont)++;
+   }
+   free(S);
+   return NULL;
 }
+
 
 
 
