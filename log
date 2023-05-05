@@ -321,3 +321,9 @@ sudoku.c:143:15: error: unused variable ‘adj_node’ [-Werror=unused-variable]
 cc1: all warnings being treated as errors
 Compilation failed
 6a8dfc5
+Fri 05 May 2023 01:07:02 AM UTC: 
+ sudoku.c | 1 -
+ 1 file changed, 1 deletion(-)
+ tests:  10|0
+total_score: 70/70
+ccd26e9
