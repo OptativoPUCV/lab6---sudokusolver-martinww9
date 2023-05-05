@@ -43,49 +43,41 @@ void print_node(Node* n){
     printf("\n");
 }
 
-int is_valid(Node* n){
-    int i, j, k, p;
-    int used[10] = {0}; 
-
-    for(i = 0; i < 9; i++){
-        for(j = 0; j < 9; j++){
-            if(n->sudo[i][j] != 0 && used[n->sudo[i][j]] == 1){
-                return 0; 
+int is_valid(Node* n) {
+    for (int i = 0; i < 9; i++) {
+        int row_used[10] = {0};
+        int col_used[10] = {0};
+        for (int j = 0; j < 9; j++) {
+            int row_num = n->sudo[i][j];
+            int col_num = n->sudo[j][i];
+            if (row_num != 0 && row_used[row_num] == 1) {
+                return 0;
             }
-            used[n->sudo[i][j]] = 1;
-        }
-        for(k = 0; k < 10; k++){
-            used[k] = 0; 
+            if (col_num != 0 && col_used[col_num] == 1) {
+                return 0;
+            }
+            row_used[row_num] = 1;
+            col_used[col_num] = 1;
         }
     }
 
-    for(j = 0; j < 9; j++){
-        for(i = 0; i < 9; i++){
-            if(n->sudo[i][j] != 0 && used[n->sudo[i][j]] == 1){
-                return 0; 
-            }
-            used[n->sudo[i][j]] = 1;
-        }
-        for(k = 0; k < 10; k++){
-            used[k] = 0; 
-        }
-    }
-
-    for(k = 0; k < 9; k++){
-        for(p = 0; p < 9; p++){
-            int i = 3*(k/3) + (p/3) ;
-            int j = 3*(k%3) + (p%3) ;
-            if(n->sudo[i][j] != 0 && used[n->sudo[i][j]] == 1){
-                return 0; 
-            }
-            used[n->sudo[i][j]] = 1;
-            if(p == 8){
-                for(int q = 0; q < 10; q++){
-                    used[q] = 0; 
+    for (int bi = 0; bi < 3; bi++) {
+        for (int bj = 0; bj < 3; bj++) {
+            int box_used[10] = {0};
+            for (int i = 0; i < 3; i++) {
+                for (int j = 0; j < 3; j++) {
+                    int row = bi*3 + i;
+                    int col = bj*3 + j;
+                    int num = n->sudo[row][col];
+                    if (num != 0 && box_used[num] == 1) {
+                        return 0;
+                    }
+                    box_used[num] = 1;
                 }
             }
         }
     }
+
     return 1;
 }
 
