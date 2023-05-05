@@ -91,8 +91,14 @@ List* get_adj_nodes(Node* n) {
     for (int i = 0; i < 9; i++) {
         for (int j = 0; j < 9; j++) {
             if (n->sudo[i][j] == 0) {
+                int unused[10] = {0};
                 for (int k = 1; k <= 9; k++) {
                     if (!used_rows[i][k] && !used_cols[j][k] && !used_boxes[(i / 3) * 3 + (j / 3)][k]) {
+                        unused[k] = 1;
+                    }
+                }
+                for (int k = 1; k <= 9; k++) {
+                    if (unused[k]) {
                         Node* new_n = copy(n);
                         new_n->sudo[i][j] = k;
                         if (is_valid(new_n)) {
@@ -102,6 +108,7 @@ List* get_adj_nodes(Node* n) {
                         }
                     }
                 }
+                break;
             }
         }
     }
