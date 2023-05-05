@@ -87,7 +87,7 @@ List* get_adj_nodes(Node* n) {
     int used_rows[9][10] = {0};
     int used_cols[9][10] = {0};
     int used_boxes[9][10] = {0};
-
+    
     for (int i = 0; i < 9; i++) {
         for (int j = 0; j < 9; j++) {
             int num = n->sudo[i][j];
@@ -99,7 +99,7 @@ List* get_adj_nodes(Node* n) {
             }
         }
     }
-
+    
     for (int i = 0; i < 9; i++) {
         for (int j = 0; j < 9; j++) {
             if (n->sudo[i][j] == 0) {
@@ -114,11 +114,10 @@ List* get_adj_nodes(Node* n) {
                         }
                     }
                 }
-                break;
             }
         }
     }
-
+    
     return list;
 }
 
