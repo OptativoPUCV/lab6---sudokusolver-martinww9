@@ -43,49 +43,50 @@ void print_node(Node* n){
     printf("\n");
 }
 
-int is_valid(Node* n) {
-    for (int i = 0; i < 9; i++) {
-        int used[10] = {0};
-        for (int j = 0; j < 9; j++) {
-            int num = n->sudo[i][j];
-            if (num != 0) {
-                if (used[num]) {
-                    return 0;
+int is_valid(Node* n){
+    int i, j, k, p;
+    int used[10] = {0}; 
+
+    for(i = 0; i < 9; i++){
+        for(j = 0; j < 9; j++){
+            if(n->sudo[i][j] != 0 && used[n->sudo[i][j]] == 1){
+                return 0; 
+            }
+            used[n->sudo[i][j]] = 1;
+        }
+        for(k = 0; k < 10; k++){
+            used[k] = 0; 
+        }
+    }
+
+    for(j = 0; j < 9; j++){
+        for(i = 0; i < 9; i++){
+            if(n->sudo[i][j] != 0 && used[n->sudo[i][j]] == 1){
+                return 0; 
+            }
+            used[n->sudo[i][j]] = 1;
+        }
+        for(k = 0; k < 10; k++){
+            used[k] = 0; 
+        }
+    }
+
+    for(k = 0; k < 9; k++){
+        for(p = 0; p < 9; p++){
+            int i = 3*(k/3) + (p/3) ;
+            int j = 3*(k%3) + (p%3) ;
+            if(n->sudo[i][j] != 0 && used[n->sudo[i][j]] == 1){
+                return 0; 
+            }
+            used[n->sudo[i][j]] = 1;
+            if(p == 8){
+                for(int q = 0; q < 10; q++){
+                    used[q] = 0; 
                 }
-                used[num] = 1;
             }
         }
     }
-    
-    for (int j = 0; j < 9; j++) {
-        int used[10] = {0};
-        for (int i = 0; i < 9; i++) {
-            int num = n->sudo[i][j];
-            if (num != 0) {
-                if (used[num]) {
-                    return 0; 
-                }
-                used[num] = 1;
-            }
-        }
-    }
-    
-    for (int k = 0; k < 9; k++) {
-        int used[10] = {0};
-        for (int i = k / 3 * 3; i < k / 3 * 3 + 3; i++) {
-            for (int j = k % 3 * 3; j < k % 3 * 3 + 3; j++) {
-                int num = n->sudo[i][j];
-                if (num != 0) {
-                    if (used[num]) {
-                        return 0;
-                    }
-                    used[num] = 1;
-                }
-            }
-        }
-    }
-    
-    return 1; 
+    return 1;
 }
 
 
@@ -101,7 +102,7 @@ List* get_adj_nodes(Node* n) {
             if (num != 0) {
                 used_rows[i][num] = 1;
                 used_cols[j][num] = 1;
-                int box_idx = (i / 3) * 3 + j / 3;
+                int box_idx = (i / 3) * 3 + (j / 3);
                 used_boxes[box_idx][num] = 1;
             }
         }
@@ -109,9 +110,9 @@ List* get_adj_nodes(Node* n) {
 
     for (int i = 0; i < 9; i++) {
         for (int j = 0; j < 9; j++) {
-            if (n->sudo[i][j] == 0) {  
+            if (n->sudo[i][j] == 0) {
                 for (int k = 1; k <= 9; k++) {
-                    if (!used_rows[i][k] && !used_cols[j][k] && !used_boxes[(i / 3) * 3 + j / 3][k]) {
+                    if (!used_rows[i][k] && !used_cols[j][k] && !used_boxes[(i / 3) * 3 + (j / 3)][k]) {
                         Node* new_n = copy(n);
                         new_n->sudo[i][j] = k;
                         if (is_valid(new_n)) {
@@ -121,6 +122,7 @@ List* get_adj_nodes(Node* n) {
                         }
                     }
                 }
+                break;
             }
         }
     }
