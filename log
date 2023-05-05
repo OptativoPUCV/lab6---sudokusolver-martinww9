@@ -194,3 +194,14 @@ Fri 05 May 2023 12:33:33 AM UTC:
  tests:  6|2
 total_score: 45/70
 3fb8c02
+Fri 05 May 2023 12:35:43 AM UTC: 
+ sudoku.c | 65 +++++++++++++++++-----------------------------------------------
+ 1 file changed, 17 insertions(+), 48 deletions(-)
+In file included from test.c:5:
+sudoku.c: In function ‘get_adj_nodes’:
+sudoku.c:113:25: error: implicit declaration of function ‘free_node’ [-Werror=implicit-function-declaration]
+  113 |                         free_node(new_node);
+      |                         ^~~~~~~~~
+cc1: all warnings being treated as errors
+Compilation failed
+f57c208

@@ -92,64 +92,33 @@ int is_valid(Node* n) {
     return 1;
 }
 
-int is_valid_new(Node* n1, Node* n2) {
-    int count = 0;
-    for (int i = 0; i < 9; i++) {
-        for (int j = 0; j < 9; j++) {
-            if (n1->sudo[i][j] != n2->sudo[i][j]) {
-                count++;
-            }
-            if (count > 1) {
-                return 0;
-            }
-        }
-    }
-    return 1;
-}
+
 
 List* get_adj_nodes(Node* n) {
     List* list = createList();
-    int used_rows[9][10] = {0};
-    int used_cols[9][10] = {0};
-    int used_boxes[9][10] = {0};
-
-    for (int i = 0; i < 9; i++) {
-        for (int j = 0; j < 9; j++) {
-            int num = n->sudo[i][j];
-            if (num != 0) {
-                used_rows[i][num] = 1;
-                used_cols[j][num] = 1;
-                int box_idx = (i / 3) * 3 + (j / 3);
-                used_boxes[box_idx][num] = 1;
-            }
-        }
-    }
-
-    for (int i = 0; i < 9; i++) {
-        for (int j = 0; j < 9; j++) {
+    int i, j;
+    // encontrar la primera casilla vacía
+    for (i = 0; i < 9; i++) {
+        for (j = 0; j < 9; j++) {
             if (n->sudo[i][j] == 0) {
-                int unused[10] = {0};
-                for (int k = 1; k <= 9; k++) {
-                    if (!used_rows[i][k] && !used_cols[j][k] && !used_boxes[(i / 3) * 3 + (j / 3)][k]) {
-                        unused[k] = 1;
+                // generar nuevos nodos adyacentes
+                int k;
+                for (k = 1; k <= 9; k++) {
+                    Node* new_node = copy(n);
+                    new_node->sudo[i][j] = k;
+                    // verificar si el nuevo nodo es válido
+                    if (is_valid(new_node)) {
+                        pushBack(list, new_node);
+                    } else {
+                        free_node(new_node);
                     }
                 }
-                for (int k = 1; k <= 9; k++) {
-                    if (unused[k]) {
-                        Node* new_n = copy(n);
-                        new_n->sudo[i][j] = k;
-                        if (is_valid_new(n, new_n)) {
-                            pushBack(list, new_n);
-                        } else {
-                            free(new_n);
-                        }
-                    }
-                }
-                break;
+                // devolver la lista de nodos adyacentes válidos
+                return list;
             }
         }
     }
-
+    // no se encontró ninguna casilla vacía, devolver una lista vacía
     return list;
 }
 
