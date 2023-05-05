@@ -291,3 +291,22 @@ sudoku.c:135:1: error: control reaches end of non-void function [-Werror=return-
 cc1: all warnings being treated as errors
 Compilation failed
 ef871a2
+Fri 05 May 2023 01:04:54 AM UTC: 
+ sudoku.c | 1 +
+ 1 file changed, 1 insertion(+)
+In file included from test.c:5:
+sudoku.c: In function ‘isEmpty’:
+sudoku.c:135:13: error: invalid use of incomplete typedef ‘Stack’ {aka ‘struct List’}
+  135 |     return s->top == NULL;
+      |             ^~
+sudoku.c: In function ‘DFS’:
+sudoku.c:149:15: error: unused variable ‘adj_node’ [-Werror=unused-variable]
+  149 |         Node* adj_node = NULL;
+      |               ^~~~~~~~
+sudoku.c: In function ‘isEmpty’:
+sudoku.c:136:1: error: control reaches end of non-void function [-Werror=return-type]
+  136 | }
+      | ^
+cc1: all warnings being treated as errors
+Compilation failed
+06563bd
