@@ -2,8 +2,6 @@
 #include <stdlib.h>
 #include "list.h"
 
-typedef struct List Stack;
-
 typedef struct{
    int sudo[9][9];
 }Node;
@@ -131,14 +129,10 @@ int is_final(Node* n){
    return 1;
 }
 
-int isEmpty(Stack* s) {
-    return s->top == NULL;
-}
-
 Node* DFS(Node* n, int* cont) {
     Stack* S = createStack();
     push(S, n);
-    while (!isEmpty(S)) {
+    while (!is_empty(S)) {
         Node* current_node = (Node*) top(S);
         pop(S);
         (*cont)++;
